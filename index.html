@@ -223,6 +223,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="hotel-badge">🏨 &nbsp;<span data-ko="Minn Umeda-East · 히가시우메다 (6/8~10)" data-jp="Minn Umeda-East · 東梅田 (6/8〜10)">Minn Umeda-East · 히가시우메다 (6/8~10)</span></div>
       <button class="cta-btn" onclick="openDays()"><span data-ko="일정 보기 →" data-jp="日程を見る →">일정 보기 →</span></button>
       <div class="weather-note" data-ko="☁️ 날씨는 여행 2주 전 공개됩니다" data-jp="☁️ 天気は旅行2週間前に公開されます">☁️ 날씨는 여행 2주 전 공개됩니다</div>
+      <div style="text-align:center;margin-top:14px;">
+        <button onclick="resetTrip()" style="background:none;border:none;font-size:11px;color:var(--text3);cursor:pointer;text-decoration:underline;opacity:.6;">다른 코드로 입장하기</button>
+      </div>
     </div>
   </div>
 
@@ -505,6 +508,17 @@ const BK=['오사카 가자냥~! 🐾','냥냥 설레는냥 🌸','리호짱 보
 const BJ=['大阪行くにゃ~! 🐾','わくわくにゃ 🌸','りほちゃん会いたいにゃ 😻','美味しいもの食べるにゃ 🍜','デートするにゃにゃ 💕'];
 function initBubble(){let i=0;setInterval(()=>{i=(i+1)%BK.length;changeBubble(currentLang,i);},4000);}
 function changeBubble(lang,idx){const b=document.getElementById('catBubble');if(!b)return;const a=lang==='jp'?BJ:BK;const i=idx!==undefined?idx:~~(Math.random()*a.length);b.style.animation='none';b.offsetHeight;b.style.animation='';b.textContent=a[i];}
+
+// ── 초기화 ──
+function resetTrip() {
+  if (!confirm('코드 입력 화면으로 돌아갈까요?')) return;
+  localStorage.removeItem('last_trip');
+  currentTripId = null; currentCode = null; DATA = null;
+  document.getElementById('screen-main').style.display = 'none';
+  document.getElementById('screen-days').style.display = 'none';
+  document.getElementById('screen-join').style.display = 'block';
+  document.getElementById('joinCodeInput').value = '';
+}
 
 // ── 초기화: 마지막 여행 자동 복구 ──
 (async function init(){
